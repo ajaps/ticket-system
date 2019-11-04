@@ -1,0 +1,15 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">Ticketing System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-nav px-3 auth-btn">
+      <% if user_signed_in? %>
+        <%= link_to  'Sign out', destroy_user_session_path, method: :delete, class: 'nav-link' %>
+      <% else %>
+        <%= link_to  'Sign in', new_user_session_path, class: 'nav-link' %>
+      <% end %>
+    </div>
+  </nav>
+</header>

@@ -9,6 +9,7 @@ class Ticket < ApplicationRecord
   validates :priority, presence: true
 
   before_validation :set_default_priority
+  before_create :set_status
 
   enum priority: {
     low: 6,
@@ -19,9 +20,20 @@ class Ticket < ApplicationRecord
     critical: 1
   }
 
+  enum status: {
+    open: 1,
+    awaiting_user_reply: 2,
+    resolved: 3,
+    closed: 4
+  }
+
   private
 
   def set_default_priority
     self.priority = 6 if priority.blank?
+  end
+
+  def set_status
+    self.status = 1
   end
 end

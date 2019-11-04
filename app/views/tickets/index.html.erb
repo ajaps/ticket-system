@@ -1,0 +1,24 @@
+<h3>Tickets </h3>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>ID</th>
+      <th>Created</th>
+      <th>Last Activity</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tickets.each do |ticket| %>
+      <tr>
+        <th><%= ticket.title %></th>
+        <th><%= ticket.id %></th>
+        <th><%= ticket.created_at %></th>
+        <th><%= ticket.updated_at %></th>
+        <th><%= ticket.status %></th>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
