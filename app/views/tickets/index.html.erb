@@ -1,24 +1,32 @@
 <h3>Tickets </h3>
+<div class="create-tickets"> <%= link_to  "Create Ticket", new_ticket_path %> </div>
 
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>Title</th>
       <th>ID</th>
+      <th>Title</th>
       <th>Created</th>
       <th>Last Activity</th>
       <th>Status</th>
     </tr>
   </thead>
+
   <tbody>
     <% @tickets.each do |ticket| %>
       <tr>
-        <th><%= ticket.title %></th>
         <th><%= ticket.id %></th>
-        <th><%= ticket.created_at %></th>
-        <th><%= ticket.updated_at %></th>
+        <th><%= link_to  ticket.title, ticket %></th>
+        <th><%= time_ago_in_words(ticket.created_at) %> ago</th>
+        <th><%= time_ago_in_words(ticket.updated_at) %> ago</th>
         <th><%= ticket.status %></th>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<% if @tickets.size < 1 %>
+  <div class="tickets-not-available">
+    You haven't created a ticket yet
+  </div>
+<% end %>

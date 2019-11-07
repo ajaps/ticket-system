@@ -1,5 +1,6 @@
 class Ticket < ApplicationRecord
   belongs_to :user
+  belongs_to :assignee, class_name: 'User'
   has_many :comments, dependent: :destroy
 
   validates_associated :user
@@ -26,6 +27,8 @@ class Ticket < ApplicationRecord
     resolved: 3,
     closed: 4
   }
+
+  scope :visible, ->(user_id) { where('user_id = ? OR assignee_id = ?', user_id, user_id).order(:created_at) }
 
   private
 

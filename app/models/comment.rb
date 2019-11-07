@@ -6,4 +6,12 @@ class Comment < ApplicationRecord
   validates_associated :ticket
 
   validates :text, presence: true
+
+  after_save :set_activity_time_on_ticket
+
+  private
+
+  def set_activity_time_on_ticket
+    ticket.touch(:updated_at)
+  end
 end

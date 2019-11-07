@@ -1,0 +1,30 @@
+<% presenter = ActivityPreviledge.new(user_comment, current_user) %>
+
+<div class="container user-comment col-md-10 <%= (presenter.super_user?) ? "super-user" : "non-super-user" %>">
+  <div class="comment-profile-head">
+    <div class="avatar comment-avatar">
+      <span class="icon-agent"></span>
+      <%= image_tag 'default-image.png', alt: "Avatar", class: "user-avatar" %>
+    </div>
+    <div class="comment-meta">
+      <span title="<%= user_comment.user.name %>" class="user-name"><%= presenter.personalize %></span><br>
+      <% if presenter.user_tag %>
+        <span class="col-md-1 user-tag"><%= presenter.user_tag %></span>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-8 comment-body">
+    <div class="meta-group meta-data row">
+      <div class="meta-data col-md-6"><time datetime="<%= user_comment.created_at %>" title="<%= user_comment.created_at %>" data-datetime="relative"><%= time_ago_in_words(user_comment.created_at) %> ago</time></div>
+    </div>
+
+    <div class="body-text">
+      <%= user_comment.text %>
+      <% if false %>
+      <div class="edit-comment">
+        edit &#9997;
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>

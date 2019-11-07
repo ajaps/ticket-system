@@ -5,7 +5,7 @@ class CreateTickets < ActiveRecord::Migration[6.0]
       t.text :text, null: false
       t.integer :priority
       t.references :user
-      t.integer :assigned_to
+      t.references :assignee
       t.timestamps
     end
   end

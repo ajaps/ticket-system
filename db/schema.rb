@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_04_113443) do
+ActiveRecord::Schema.define(version: 2019_11_07_005633) do
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "text", null: false
@@ -27,10 +27,11 @@ ActiveRecord::Schema.define(version: 2019_11_04_113443) do
     t.text "text", null: false
     t.integer "priority"
     t.bigint "user_id"
-    t.integer "assigned_to"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status", null: false
+    t.bigint "assignee_id"
+    t.index ["assignee_id"], name: "index_tickets_on_assignee_id"
     t.index ["user_id"], name: "index_tickets_on_user_id"
   end
 

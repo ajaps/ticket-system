@@ -1,0 +1,32 @@
+<%= form_for(@ticket, html: {class: 'save-ticket'}) do |f| %>
+  <div class="col-md-8">
+    <% if @error_messages %>
+      <div><%= pluralize(@error_messages.count, "error") %> prohibited this Ticket from being sent:</div>
+        <ul>
+          <% @error_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :text, "Priority" %><br>
+      <%= f.select :priority, options_for_select(@priority, selected: (@ticket.priority)), class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :title, "Title" %><br>
+      <%= f.text_field :title, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :text, "Text" %><br>
+      <%= f.text_area :text, class: "form-control ticket-text" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit class: "btn btn-primary submit-btn" %>
+    </div>
+  </div>
+<% end %>

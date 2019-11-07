@@ -1,0 +1,35 @@
+<div class="row ticket">
+  <div class="container ticket-details">
+
+    <div class="title">
+      <%= @ticket.title %>
+    </div>
+
+    <div class="comment-author">
+      <div class="avatar comment-avatar">
+        <span class="icon-agent"></span>
+        <%= image_tag 'default-image.png', alt: "Avatar", class: "user-avatar" %>
+      </div>
+      <div class="comment-meta">
+        <span title="Allan Ssenyonjo">Ajaps Franklin</span>
+        <ul class="meta-group">
+          <li class="meta-data"><time datetime="<%= @ticket.created_at %>" title="2019-10-03 16:00" data-datetime="relative"><%= time_ago_in_words(@ticket.created_at) %> ago</time></li>
+        </ul>
+      </div>
+      <div class="status">
+        <div> Ticket Status </div>
+        <%= @ticket.status.capitalize %>
+      </div>
+    </div>
+
+    <div class="message">
+      <%= @ticket.text %>
+    </div>
+  </div>
+
+  <%= render partial: "comments/user_comment", collection: @ticket.comments.order(:created_at), as: :user_comment %>
+
+  <div class="container add-comment col-md-6">
+    <%= render 'comments/form', user_id: current_user.id, ticket_id: @ticket.id %>
+  </div>
+</div>

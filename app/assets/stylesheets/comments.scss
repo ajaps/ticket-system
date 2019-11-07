@@ -1,0 +1,78 @@
+// Place all the styles related to the comments controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.user-comment {
+  &.super-user {
+    margin-left: 187px;
+  }
+
+  &.non-super-user {
+    margin-left: 131px;
+  }
+
+  .comment-meta {
+    .user-name {
+      font-size: 13px;
+    }
+
+    .user-tag {
+      border: 1px solid whitesmoke;
+      border-radius: 15px;
+      padding-left: 9px;
+      background: darkseagreen;
+      font-size: 10px;
+      font-style: italic;
+      margin-left: -22px;
+    }
+
+    .meta-group {
+      .meta-data {
+        color: #666;
+        font-size: 9px;
+        font-weight: 300;
+      }
+    }
+  }
+
+  .comment-body {
+    border: 3px solid whitesmoke;
+    border-radius: 14px;
+    padding: 14px;
+
+    .body-text {
+      font-size: 13px;
+
+
+      .edit-comment {
+        font-style: italic;
+        font-weight: 100;
+        color: cadetblue;
+        text-align: right;
+      }
+    }
+
+    .meta-group {
+      border-bottom: 1px solid whitesmoke;
+      color: #666;
+      font-size: 10px;
+      font-weight: 300;
+      margin-bottom: 12px;
+    }
+  }
+
+  .comment-body:before {
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+
+    border-left: 0;
+
+    content: "";
+    left: -16px;
+    top: 10px;
+    /*Use boarder color of panel*/
+    border-right-color: inherit;
+    border-width: 16px;
+  }
+}
