@@ -9,6 +9,8 @@ class Comment < ApplicationRecord
 
   after_save :set_activity_time_on_ticket
 
+  attr_reader :status
+
   private
 
   def set_activity_time_on_ticket

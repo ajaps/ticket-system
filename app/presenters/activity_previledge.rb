@@ -22,6 +22,14 @@ class ActivityPreviledge
     @activity.user.agent || @activity.user.admin
   end
 
+  def owner?
+    @activity.user == @current_user
+  end
+
+  def can_comment?
+    @activity.status != 'closed' || owner?
+  end
+
   def user_tag
     return 'Admin' if @activity.user.admin
     return 'Support staff' if @activity.user.agent?

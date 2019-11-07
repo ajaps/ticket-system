@@ -35,6 +35,10 @@
           font-style: italic;
           font-size: 10px;
         }
+
+        .send-comment-close-ticket {
+          margin-left: 73px;
+        }
       }
 
       .comment-text {
@@ -98,6 +102,14 @@
     .create-tickets {
       text-align: right;
       margin-bottom: 11px;
+    }
+
+    .available-tickets {
+      .actions {
+        .self-assign {
+          font-size: 10px;
+        }
+      }
     }
   }
 

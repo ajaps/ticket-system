@@ -1,3 +1,5 @@
+<% presenter = ActivityPreviledge.new(@ticket, current_user) %>
+
 <div class="row ticket">
   <div class="container ticket-details">
 
@@ -11,14 +13,14 @@
         <%= image_tag 'default-image.png', alt: "Avatar", class: "user-avatar" %>
       </div>
       <div class="comment-meta">
-        <span title="Allan Ssenyonjo">Ajaps Franklin</span>
+        <span title="<%= @ticket.user.name %>"><%= presenter.personalize %></span>
         <ul class="meta-group">
           <li class="meta-data"><time datetime="<%= @ticket.created_at %>" title="2019-10-03 16:00" data-datetime="relative"><%= time_ago_in_words(@ticket.created_at) %> ago</time></li>
         </ul>
       </div>
       <div class="status">
         <div> Ticket Status </div>
-        <%= @ticket.status.capitalize %>
+        <%= @ticket.status.humanize  %>
       </div>
     </div>
 
@@ -30,6 +32,8 @@
   <%= render partial: "comments/user_comment", collection: @ticket.comments.order(:created_at), as: :user_comment %>
 
   <div class="container add-comment col-md-6">
-    <%= render 'comments/form', user_id: current_user.id, ticket_id: @ticket.id %>
+    <% if presenter.can_comment? %>
+      <%= render 'comments/form', user_id: current_user.id, ticket_id: @ticket.id %>
+    <% end %>
   </div>
 </div>

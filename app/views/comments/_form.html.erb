@@ -1,11 +1,18 @@
   <%= form_for(@comment, html: {class: 'form-inline'}) do |f| %>
-    <div class="form-group">
-      <%= f.text_area :text, class: "form-control comment-text", placeholder: "add comment" %>
+    <div class='form-group'>
+      <%= f.text_area :text, class: 'form-control comment-text', placeholder: 'add comment' %>
     </div>
     <%= f.hidden_field :user_id %>
     <%= f.hidden_field :ticket_id %>
 
-    <div class="actions">
-      <%= f.submit "Send", class: "btn btn-primary send-comment" %>
+    <% if current_user.admin? || current_user.agent? %>
+      <%= f.hidden_field :status, value: 'closed' %>
+    <% end %>
+
+    <div class='actions'>
+      <%= f.submit 'Send', class: 'btn btn-primary send-comment' %>
+      <% if current_user.admin? || current_user.agent? %>
+        <%= f.submit 'Send and close ticket', class: 'btn btn-success send-comment-close-ticket' %>
+      <% end %>
     </div>
   <% end %>

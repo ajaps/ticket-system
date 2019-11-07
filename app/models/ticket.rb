@@ -1,6 +1,6 @@
 class Ticket < ApplicationRecord
   belongs_to :user
-  belongs_to :assignee, class_name: 'User'
+  belongs_to :assignee, class_name: 'User', optional: true
   has_many :comments, dependent: :destroy
 
   validates_associated :user
@@ -24,10 +24,10 @@ class Ticket < ApplicationRecord
   enum status: {
     open: 1,
     awaiting_user_reply: 2,
-    resolved: 3,
     closed: 4
   }
 
+  default_scope { order(:status, :priority, :created_at) }
   scope :visible, ->(user_id) { where('user_id = ? OR assignee_id = ?', user_id, user_id).order(:created_at) }
 
   private

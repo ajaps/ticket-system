@@ -1,14 +1,26 @@
+<% if @error_messages %>
+  <div><%= pluralize(@error_messages.count, "error") %> prohibited this Ticket from being sent:</div>
+    <ul>
+      <% @error_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <h3>Tickets </h3>
 <div class="create-tickets"> <%= link_to  "Create Ticket", new_ticket_path %> </div>
 
-<table class="table table-hover">
+<table class="table table-hover available-tickets">
   <thead>
     <tr>
       <th>ID</th>
       <th>Title</th>
       <th>Created</th>
       <th>Last Activity</th>
+      <th>Priority </th>
       <th>Status</th>
+      <th>Assigned To</th>
     </tr>
   </thead>
 
@@ -19,7 +31,10 @@
         <th><%= link_to  ticket.title, ticket %></th>
         <th><%= time_ago_in_words(ticket.created_at) %> ago</th>
         <th><%= time_ago_in_words(ticket.updated_at) %> ago</th>
-        <th><%= ticket.status %></th>
+        <th><%= ticket.priority %></th>
+        <th><%= ticket.status.humanize %></th>
+
+        <th><%= ticket_assign(ticket) %></th>
       </tr>
     <% end %>
   </tbody>

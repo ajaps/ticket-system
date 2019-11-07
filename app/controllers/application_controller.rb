@@ -13,6 +13,13 @@ class ApplicationController < ActionController::Base
     current_user.agent || current_user.admin
   end
 
+  def require_super_user!
+    return if super_user?
+
+    flash[:error] = "You must be a super-user to perform this section"
+    redirect_to root_path
+  end
+
   protected
 
   def configure_permitted_parameters
