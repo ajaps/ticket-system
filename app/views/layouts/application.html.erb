@@ -16,6 +16,18 @@
     <%= render "layouts/header" %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
+    <% flash.each do |(name, msg)| %>
+      <%
+        next unless %w[ notice error success ].include?(name)
+      %>
+
+      <% if msg.present? %>
+        <div class="<%= alert_class(name, msg) %>">
+          <a class="close" data-dismiss="alert">&#215;</a>
+          <%= content_tag :div, msg, id: "flash_#{name}" %>
+        </div>
+      <% end %>
+    <% end %>
 
     <div class='container page-body'>
       <%= yield %>

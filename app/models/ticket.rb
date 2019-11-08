@@ -13,12 +13,12 @@ class Ticket < ApplicationRecord
   before_create :set_status
 
   enum priority: {
-    low: 6,
-    medium: 5,
-    high: 4,
-    urgent: 3,
+    critical: 1,
     emergency: 2,
-    critical: 1
+    urgent: 3,
+    high: 4,
+    medium: 5,
+    low: 6
   }
 
   enum status: {

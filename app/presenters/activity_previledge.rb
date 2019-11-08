@@ -34,4 +34,8 @@ class ActivityPreviledge
     return 'Admin' if @activity.user.admin
     return 'Support staff' if @activity.user.agent?
   end
+
+  def assigned_to
+    @activity.assignee&.name || 'None'
+  end
 end

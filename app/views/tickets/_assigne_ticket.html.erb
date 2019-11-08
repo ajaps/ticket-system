@@ -1,8 +1,11 @@
 <%= form_for(ticket, html: {class: 'form-inline'}) do |f| %>
-
-  <%= f.hidden_field :user_id, value: current_user.id %>
+  <% if admin? %>
+    <%= f.select :assignee_id, options_for_select(@team, selected: (ticket.assignee_id)), {include_blank: true}, { class: "form-control" } %>
+  <% else %>
+    <%= f.hidden_field :assignee_id, value: current_user.id %>
+  <% end %>
 
   <div class='actions'>
-    <%= f.submit 'assign to me', class: 'btn btn-success self-assign' %>
+    <%= f.submit admin? ? 'Assign' : 'Assign to me' , class: "btn btn-success self-assign #{ 'admin-assign' if admin? }" %>
   </div>
 <% end %>

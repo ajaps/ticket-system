@@ -1,10 +1,11 @@
 class TicketsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_super_user!, only: :update
-  before_action :set_ticket, only: %i[show update]
-  before_action :form_data, only: %i[new edit create]
+  before_action :set_ticket, only: %i[show update destroy]
+  before_action :form_data, only: %i[new edit create show]
   before_action :comment, only: :show
   before_action :available_status, only: :show
+  before_action :available_support_team, if: -> { admin? }
 
   def index
     @tickets = Ticket.order(:created_at) if super_user?
@@ -27,8 +28,8 @@ class TicketsController < ApplicationController
   end
 
   def update
-    ticket = @ticket.update_attributes(assignee: current_user) if agent?
-    ticket =@ticket.update_attributes(update_ticket_params) if admin?
+    ticket = @ticket.update_attributes(update_ticket_params) if admin?
+    ticket ||= @ticket.update_attributes(assignee: current_user) if agent?
 
     if ticket
       redirect_to @ticket, notice: "Ticket was successfully updated"
@@ -38,10 +39,29 @@ class TicketsController < ApplicationController
     end
   end
 
+  def destroy
+    if admin?
+
+     @ticket.destroy
+     redirect_to root_path, notice: 'Ticket was deleted successfully'
+    else
+
+      redirect_to root_path, notice: 'You do not have rights to perform this action'
+    end
+  end
+
   private
+
+  def priority
+    @priority = Ticket.priorities.map { |p| [p.first, p.first] }
+  end
 
   def set_ticket
     @ticket = Ticket.find(params[:id])
+  end
+
+  def available_support_team
+    @team = User.team.pluck(:name, :id)
   end
 
   def comment
@@ -53,15 +73,15 @@ class TicketsController < ApplicationController
   end
 
   def update_ticket_params
-    params.require(:ticket).permit(%i[priority status assignee])
+    params.require(:ticket).permit(%i[priority status assignee_id])
   end
 
   def available_status
-    @available_status = Ticket.statuses.map { |p| [p.first, p.first] } if admin?
-    @available_status ||= ['closed', 'closed'] if agent?
+    @available_status = Ticket.statuses.map { |p| [p.first.capitalize, p.first] } if admin?
+    @available_status ||= %w[closed closed] if agent?
   end
 
   def form_data
-    @priority = Ticket.priorities.map { |p| [p.first, p.first] }
+    @priority = Ticket.priorities.map { |p| [p.first.capitalize, p.first] }
   end
 end
