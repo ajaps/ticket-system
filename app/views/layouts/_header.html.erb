@@ -8,7 +8,7 @@
       <div class="col-md-3 admin-panel">
         <%= link_to  'Admin Panel', profiles_path, class: 'navbar-brand' %>
       </div>
-      <% else %>
+      <% elsif current_user %>
       <div class="col-md-3 admin-panel">
         <%= link_to  'View Profile', profile_path(current_user), class: 'navbar-brand' %>
       </div>
