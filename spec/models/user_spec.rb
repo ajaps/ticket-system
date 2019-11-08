@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  let!(:admin) { create(:user, :admin) }
+  let!(:agent) { create(:user, :agent) }
+  let!(:customer) { create(:user) }
+
   describe 'validations' do
     it 'is invalid without an email' do
       user = User.new(name: 'Ajaps', password: 'qwerty')
@@ -26,6 +30,20 @@ RSpec.describe User, type: :model do
       user = User.new(email: 'franklin@gmail.com', name: 'Ajaps')
       expect { user.save! }
         .to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Password can't be blank")
+    end
+  end
+
+  describe 'team' do
+    it 'should return all agents and admins in the DB' do
+
+      expect(User.team.pluck(:id)).to eq [admin.id, agent.id]
+    end
+  end
+
+  describe 'all_users' do
+    it 'should return all users in the DB ordered by customer, agents then admins' do
+
+      expect(User.all_users.pluck(:id)).to eq [customer.id, agent.id, admin.id]
     end
   end
 end

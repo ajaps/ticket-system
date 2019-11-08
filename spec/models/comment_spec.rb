@@ -14,7 +14,8 @@ RSpec.describe Comment, type: :model do
 
   describe 'associations' do
     it 'should have a valid user' do
-      comment = Comment.new(user_id: 2, ticket: ticket, text: 'this issue has been resolved')
+      NON_EXISTENT_USER = '20p'.freeze
+      comment = Comment.new(user_id: NON_EXISTENT_USER, ticket: ticket, text: 'this issue has been resolved')
       expect { comment.save! }
         .to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: User must exist')
     end

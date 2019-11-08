@@ -24,7 +24,7 @@
             <th><%= f.select :agent, options_for_select([[true, true], [false, false]], selected: (user.agent)), {}, { class: "form-control" } %></th>
             <th><%= f.select :admin, options_for_select([[true, true], [false, false]], selected: (user.admin)), {}, { class: "form-control" } %></th>
             <th class='ticket-count'><%= user.tickets.size %></th>
-            <th class='ticket-count'><%= user.assigned_tickets %></th>
+            <th class='ticket-count'><%= Ticket.assigned_tickets(user.id) %></th>
             <th class='ticket-count'><%= Ticket.assigned_open_tickets(user.id).size %></th>
             <th class='ticket-count'><%= Ticket.assigned_closed_tickets(user.id).size %></th>
 
