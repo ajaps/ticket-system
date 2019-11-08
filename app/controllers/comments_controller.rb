@@ -4,20 +4,15 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
 
-    respond_to do |format|
-      if @comment.save
+    if @comment.save
+      close_ticket = params['commit'].include?('close')
+      @comment.ticket.update(status: :closed) if super_user? && close_ticket # close ticket
 
-        ticket_status = params['comment']['status']
-        @comment.ticket.update(status: ticket_status) if super_user? && ticket_status == 'closed' # update ticket status
+      redirect_to @ticket, notice: 'Comment was saved successfully'
+    else
 
-        format.html { redirect_to @ticket, notice: 'Comment was saved successfully' }
-        format.json { render json: @comment, status: :ok }
-      else
-        @error_messages = @comment.errors.full_messages
-
-        format.html { redirect_to @ticket, notice: 'An error occured while saving comment, please try again' }
-        format.json { render json: @error_messages, status: :unprocessable_entity }
-      end
+      @error_messages = @comment.errors.full_messages
+      redirect_to @ticket, notice: 'An error occured while saving comment, please try again'
     end
   end
 

@@ -18,7 +18,7 @@ class TicketsController < ApplicationController
   end
 
   def create
-    @ticket = Ticket.new(ticket_params.merge(user: current_user))
+    @ticket = Ticket.new(create_ticket_params.merge(user: current_user))
     if @ticket.save
       redirect_to @ticket
     else
@@ -28,8 +28,7 @@ class TicketsController < ApplicationController
   end
 
   def update
-    ticket = @ticket.update_attributes(update_ticket_params) if admin?
-    ticket ||= @ticket.update_attributes(assignee: current_user) if agent?
+    ticket = @ticket.update_attributes(update_ticket_params)
 
     if ticket
       redirect_to @ticket, notice: "Ticket was successfully updated"
@@ -68,12 +67,14 @@ class TicketsController < ApplicationController
     @comment = Comment.new(ticket: @ticket, user: current_user)
   end
 
-  def ticket_params
+  def create_ticket_params
     params.require(:ticket).permit(%i[text title user_id priority])
   end
 
   def update_ticket_params
-    params.require(:ticket).permit(%i[priority status assignee_id])
+    return params.require(:ticket).permit(%i[priority status assignee_id]) if admin?
+
+    { assignee: current_user }
   end
 
   def available_status

@@ -4,9 +4,11 @@
       <%= link_to  'Ticketing System', root_path, class: 'navbar-brand' %>
     </div>
 
-    <div class="col-md-3 admin-panel">
-      <%= link_to  'Admin Panel', root_path, class: 'navbar-brand' %>
-    </div>
+    <% if admin? %>
+      <div class="col-md-3 admin-panel">
+        <%= link_to  'Admin Panel', profiles_path, class: 'navbar-brand' %>
+      </div>
+    <% end %>
 
     <div class="navbar-nav px-3 auth-btn">
       <% if user_signed_in? %>

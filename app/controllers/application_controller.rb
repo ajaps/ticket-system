@@ -20,6 +20,13 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
+  def require_admin!
+    return if super_user?
+
+    flash[:error] = "You must be an Admin to perform this section"
+    redirect_to root_path
+  end
+
   protected
 
   def configure_permitted_parameters

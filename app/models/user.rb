@@ -12,6 +12,11 @@ class User < ApplicationRecord
   validate :cannot_be_an_admin_and_agent
 
   scope :team, -> { where('agent = ? OR admin = ?', true, true).order(:admin) }
+  scope :all_users, -> { order(:admin, :agent) }
+
+  def assigned_tickets
+    tickets.size
+  end
 
   private
 

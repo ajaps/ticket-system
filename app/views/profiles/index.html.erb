@@ -1,0 +1,42 @@
+
+<div>
+  <table class="table table-hover users">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Agent</th>
+        <th>Admin</th>
+        <th>Tickets Created</th>
+        <th>Assigned Tickets</th>
+        <th>Open Tickets(Assigned)</th>
+        <th>Closed Tickets(Assigned)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @users.each do |user| %>
+        <%= form_with url: profile_path(user) do |f| %>
+          <tr>
+            <th><%= user.id %></th>
+            <th><%= user.name.capitalize %></th>
+            <th><%= f.select :agent, options_for_select([[true, true], [false, false]], selected: (user.agent)), {}, { class: "form-control" } %></th>
+            <th><%= f.select :admin, options_for_select([[true, true], [false, false]], selected: (user.admin)), {}, { class: "form-control" } %></th>
+            <th class='ticket-count'><%= user.tickets.size %></th>
+            <th class='ticket-count'><%= user.assigned_tickets %></th>
+            <th class='ticket-count'><%= Ticket.assigned_open_tickets(user.id).size %></th>
+            <th class='ticket-count'><%= Ticket.assigned_closed_tickets(user.id).size %></th>
+
+            <th>
+              <div class='actions'>
+                <%= f.submit 'Update', class: "btn btn-success" %>
+                <%= link_to 'Delete', profile_path(user), method: :delete, :data => { :confirm => "This would delete #{user.name.upcase}'s account along with the associated tickets and comments permanently" }, class: "btn btn-danger delete-account" %></p>
+              </div>
+            </th>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
