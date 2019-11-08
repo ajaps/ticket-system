@@ -8,6 +8,10 @@
       <div class="col-md-3 admin-panel">
         <%= link_to  'Admin Panel', profiles_path, class: 'navbar-brand' %>
       </div>
+      <% else %>
+      <div class="col-md-3 admin-panel">
+        <%= link_to  'View Profile', profile_path(current_user), class: 'navbar-brand' %>
+      </div>
     <% end %>
 
     <div class="navbar-nav px-3 auth-btn">

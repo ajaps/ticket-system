@@ -17,4 +17,33 @@
       }
     }
   }
+
+  &[data-action=show] {
+    .profile {
+      margin-top: 100px;
+      text-align: -webkit-center;
+
+      .user {
+        line-height: 41px;
+
+        label {
+          line-height: 41px;
+          font-size: 1.5rem;
+        }
+      }
+
+      .user-type {
+        background: aliceblue;
+        border: 4px solid whitesmoke;
+        border-radius: 16px;
+        font-weight: 900;
+        padding: 4px;
+        width: fit-content;
+      }
+    }
+  }
+
+  .file-upload {
+    margin-left: 28px;
+  }
 }

@@ -1,0 +1,9 @@
+   <ul class="list-group">
+      <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+      <li class="list-group-item text-right"><span class="pull-left"><strong>Tickets created</strong></span> <%= @user.tickets.count %></li>
+      <li class="list-group-item text-right"><span class="pull-left"><strong>Open Tickets</strong></span> <%= @user.tickets.open.count %></li>
+      <li class="list-group-item text-right"><span class="pull-left"><strong>Closed Tickets</strong></span> <%= @user.tickets.closed.count %> </li>
+      <li class="list-group-item text-right"><span class="pull-left"><strong>Tickets Assigned(Open)</strong></span> <%= Ticket.assigned_open_tickets(@user.id).count %></li>
+      <li class="list-group-item text-right"><span class="pull-left"><strong>Tickets Assigned(Closed)</strong></span> <%= Ticket.assigned_closed_tickets(@user.id).count %></li>
+      <li class="list-group-item text-right"><span class="pull-left"><strong>Total Tickets Assigned</strong></span> <%= Ticket.assigned_tickets(@user.id).count %></li>
+    </ul>

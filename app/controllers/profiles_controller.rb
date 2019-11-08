@@ -2,6 +2,7 @@ class ProfilesController < ApplicationController
   before_action :require_admin!, only: :index
   before_action :all_users, only: :index
   before_action :set_user, only: %i[update show destroy]
+  before_action :access, only: :show
 
   def update
     user = @user.update_attributes(profile_params)
@@ -22,8 +23,14 @@ class ProfilesController < ApplicationController
 
   private
 
+  def access
+    return if @user == current_user || admin?
+
+    redirect_to profile_path(current_user)
+  end
+
   def set_user
-    @user = User.find(params[:id])
+    @user = User.includes(:tickets).find(params[:id])
   end
 
   def all_users

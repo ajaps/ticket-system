@@ -29,6 +29,8 @@ class Ticket < ApplicationRecord
 
   default_scope { order(:status, :priority, :created_at) }
   scope :visible, ->(user_id) { where('user_id = ? OR assignee_id = ?', user_id, user_id).order(:created_at) }
+  scope :open, -> { where('status = ? OR status = ?', :open, :awaiting_user_reply ) }
+  scope :closed, -> { where(status: :closed) }
 
   def self.assigned_open_tickets(user_id)
     where(assignee_id: user_id).where('status = ? OR status = ?', :open, :awaiting_user_reply )
@@ -38,12 +40,8 @@ class Ticket < ApplicationRecord
     where(assignee_id: user_id, status: :closed)
   end
 
-  def open
-    status == :open
-  end
-
-  def closed
-    status == :closed
+  def self.assigned_tickets(user_id)
+    where(assignee_id: user_id)
   end
 
   private

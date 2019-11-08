@@ -20,7 +20,7 @@
         <%= form_with url: profile_path(user) do |f| %>
           <tr>
             <th><%= user.id %></th>
-            <th><%= user.name.capitalize %></th>
+            <th><%= link_to user.name.capitalize, profile_path(user) %></th>
             <th><%= f.select :agent, options_for_select([[true, true], [false, false]], selected: (user.agent)), {}, { class: "form-control" } %></th>
             <th><%= f.select :admin, options_for_select([[true, true], [false, false]], selected: (user.admin)), {}, { class: "form-control" } %></th>
             <th class='ticket-count'><%= user.tickets.size %></th>
