@@ -1,11 +1,13 @@
 class TicketsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_super_user!, only: :update
+  before_action :require_admin!, only: :destroy
   before_action :set_ticket, only: %i[show update destroy]
   before_action :form_data, only: %i[new edit create show]
   before_action :comment, only: :show
   before_action :available_status, only: :show
   before_action :available_support_team, if: -> { admin? }
+  before_action :require_access!, only: :show
 
   def index
     @tickets = Ticket.order(:created_at) if super_user?
@@ -28,25 +30,20 @@ class TicketsController < ApplicationController
   end
 
   def update
-    ticket = @ticket.update_attributes(update_ticket_params)
+    ticket = @ticket.update(update_ticket_params)
 
     if ticket
-      redirect_to @ticket, notice: "Ticket was successfully updated"
+      redirect_to @ticket, notice: 'Ticket was successfully updated'
     else
       @error_messages = @ticket.errors.full_messages
-      redirect_to @ticket, notice: "An error occured while updating the ticket"
+      redirect_to @ticket, notice: 'An error occured while updating the ticket'
     end
   end
 
   def destroy
-    if admin?
+    @ticket.destroy
 
-     @ticket.destroy
-     redirect_to root_path, notice: 'Ticket was deleted successfully'
-    else
-
-      redirect_to root_path, notice: 'You do not have rights to perform this action'
-    end
+    redirect_to root_path, notice: 'Ticket was deleted successfully'
   end
 
   private
@@ -68,11 +65,11 @@ class TicketsController < ApplicationController
   end
 
   def create_ticket_params
-    params.require(:ticket).permit(%i[text title user_id priority])
+    params.permit(%i[text title user_id priority])
   end
 
   def update_ticket_params
-    return params.require(:ticket).permit(%i[priority status assignee_id]) if admin?
+    return params.permit(%i[priority status assignee_id]) if admin?
 
     { assignee: current_user }
   end
@@ -84,5 +81,12 @@ class TicketsController < ApplicationController
 
   def form_data
     @priority = Ticket.priorities.map { |p| [p.first.capitalize, p.first] }
+  end
+
+  def require_access!
+    return if super_user?
+    return if @ticket.user == current_user
+
+    redirect_to root_path, notice: 'You do not have access to view this ticket'
   end
 end

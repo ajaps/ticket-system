@@ -27,7 +27,9 @@ class ActivityPreviledge
   end
 
   def can_comment?
-    @activity.status != 'closed' || owner?
+    return true if super_user?
+
+    @activity.status != 'closed' || @activity.comments?
   end
 
   def user_tag

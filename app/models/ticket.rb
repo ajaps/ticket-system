@@ -40,8 +40,12 @@ class Ticket < ApplicationRecord
     where(assignee_id: user_id, status: :closed)
   end
 
-  def assigned_tickets(user_id)
+  def self.assigned_tickets(user_id)
     where(assignee_id: user_id)
+  end
+
+  def comments?
+    comments.present?
   end
 
   private

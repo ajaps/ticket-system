@@ -16,14 +16,14 @@ class ApplicationController < ActionController::Base
   def require_super_user!
     return if super_user?
 
-    flash[:error] = "You must be a super-user to perform this section"
+    flash[:error] = 'You must be a super-user to perform this operation'
     redirect_to root_path
   end
 
   def require_admin!
-    return if super_user?
+    return if admin?
 
-    flash[:error] = "You must be an Admin to perform this section"
+    flash[:error] = 'You must be an Admin to perform this operation'
     redirect_to root_path
   end
 
