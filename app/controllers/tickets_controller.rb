@@ -16,11 +16,11 @@ class TicketsController < ApplicationController
   end
 
   def new
-    @ticket = Ticket.new
+    @ticket = Ticket.new(user: current_user)
   end
 
   def create
-    @ticket = Ticket.new(create_ticket_params.merge(user: current_user))
+    @ticket = Ticket.new(create_ticket_params)
     if @ticket.save
       redirect_to @ticket
     else
@@ -65,11 +65,13 @@ class TicketsController < ApplicationController
   end
 
   def create_ticket_params
-    params.permit(%i[text title user_id priority])
+    params.require(:ticket)
+      .permit(%i[text title user_id priority])
+      .merge(user_id: current_user.id)
   end
 
   def update_ticket_params
-    return params.permit(%i[priority status assignee_id]) if admin?
+    return params.require(:ticket).permit(%i[priority status assignee_id]) if admin?
 
     { assignee: current_user }
   end

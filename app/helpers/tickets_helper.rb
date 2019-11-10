@@ -1,7 +1,7 @@
 module TicketsHelper
   def ticket_assign(ticket)
-    return ticket.assignee.try(:name) if ticket.assignee.try(:name) && agent?
+    return render 'assigne_ticket', ticket: ticket if super_user?
 
-    render 'assigne_ticket', ticket: ticket
+    return ticket.assignee.try(:name) if ticket.assignee.try(:name)
   end
 end

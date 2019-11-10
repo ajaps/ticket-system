@@ -22,7 +22,9 @@
       <th> Priority </th>
       <th>Status</th>
       <th>Assigned To</th>
-      <th>Actions</th>
+       <% if admin? %>
+        <th>Actions</th>
+      <% end %>
     </tr>
   </thead>
 
@@ -38,7 +40,9 @@
         <th><%= ticket.status.humanize %></th>
 
         <th><%= ticket_assign(ticket) %></th>
-        <th><%= link_to  "Delete", ticket_path(ticket), method: :delete, class: "btn btn-danger", :data => { :confirm => "This would delete ticket ID #{ticket.id} permanently" } %> </th>
+        <% if admin? %>
+          <th><%= link_to  "Delete", ticket_path(ticket), method: :delete, class: "btn btn-danger", :data => { :confirm => "This would delete ticket ID #{ticket.id} permanently" } %> </th>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

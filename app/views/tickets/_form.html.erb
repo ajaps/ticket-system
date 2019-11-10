@@ -1,4 +1,4 @@
-<%= form_with(model: @ticket, class: 'save-ticket') do |f| %>
+<%= form_for(@ticket, html: {class: 'save-ticket' }) do |f| %>
   <div class="col-md-8">
     <% if @error_messages %>
       <div><%= pluralize(@error_messages.count, "error") %> prohibited this Ticket from being sent:</div>
@@ -26,7 +26,7 @@
     </div>
 
     <div class="actions">
-      <%= f.submit class: "btn btn-primary submit-btn" %>
+      <%= f.submit class: "btn btn-primary submit-btn create-ticket" %>
     </div>
   </div>
 <% end %>
