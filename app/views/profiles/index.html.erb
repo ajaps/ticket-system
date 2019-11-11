@@ -39,6 +39,7 @@
 <div class='show-tickets'>
   <% @users.each do |user| %>
     <% element_id = "#{user.name}-#{user.id}" %>
+
     <%= form_with url: profile_path(user), class: 'form-inline ticket-display' do |f| %>
       <div class="ticket-row " id="<%= user.name %>-<%= user.id %>">
         <div class="ticket-col-1"><%= user.id %></div>

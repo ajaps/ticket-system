@@ -28,7 +28,7 @@ RSpec.describe 'Admin actions on Ticket', type: :feature do
     visit root_path
 
     select(agent.name, from: 'ticket_assignee_id')
-    click_button 'Assign'
+    click_button 'Update'
 
     expect(page).to have_content("Assigned to: #{agent.name}")
     expect(page).to have_selector('.alert', text: 'Ticket was successfully updated')

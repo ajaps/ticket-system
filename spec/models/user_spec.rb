@@ -39,11 +39,4 @@ RSpec.describe User, type: :model do
       expect(User.team.pluck(:id)).to eq [admin.id, agent.id]
     end
   end
-
-  describe 'all_users' do
-    it 'should return all users in the DB ordered by customer, agents then admins' do
-
-      expect(User.all_users.pluck(:id)).to eq [customer.id, agent.id, admin.id]
-    end
-  end
 end
