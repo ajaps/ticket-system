@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def admin_display(content, alternate_content=nil)
-    content if admin?
+    return content if admin?
 
     alternate_content
   end

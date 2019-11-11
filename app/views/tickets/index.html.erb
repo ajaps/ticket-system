@@ -14,11 +14,11 @@
 <table class="table table-hover available-tickets">
   <thead>
     <tr>
-      <th>ID</th>
+      <th class="ticket-id" >ID</th>
       <th>Title</th>
       <th>Created</th>
       <th>Last Activity</th>
-      <th><%= admin_display('Comments') %></th>
+      <th class="number-of-comments"><%= admin_display('Comments') %></th>
       <th> Priority </th>
       <th>Status</th>
       <th>Assigned To</th>
@@ -31,18 +31,14 @@
   <tbody>
     <% @tickets.each do |ticket| %>
       <tr>
-        <th><%= ticket.id %></th>
-        <th><%= link_to  ticket.title, ticket %></th>
-        <th><%= time_ago_in_words(ticket.created_at) %> ago</th>
-        <th><%= time_ago_in_words(ticket.updated_at) %> ago</th>
-        <th class='message-count'><%= admin_display(ticket.comments.count) %></th>
-        <th><%= ticket.priority.capitalize %></th>
-        <th><%= ticket.status.humanize %></th>
+        <td><%= ticket.id %></td>
+        <td><%= link_to  ticket.title, ticket %></td>
+        <td><%= time_ago_in_words(ticket.created_at) %> ago</td>
+        <td><%= time_ago_in_words(ticket.updated_at) %> ago</td>
+        <td class='message-count'><%= admin_display(ticket.comments.count) %></td>
+        <td><%= ticket.priority.capitalize %></td>
 
-        <th><%= ticket_assign(ticket) %></th>
-        <% if admin? %>
-          <th><%= link_to  "Delete", ticket_path(ticket), method: :delete, class: "btn btn-danger", :data => { :confirm => "This would delete ticket ID #{ticket.id} permanently" } %> </th>
-        <% end %>
+        <%= ticket_assign(ticket) %>
       </tr>
     <% end %>
   </tbody>

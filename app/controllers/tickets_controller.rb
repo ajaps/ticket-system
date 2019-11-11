@@ -66,8 +66,8 @@ class TicketsController < ApplicationController
 
   def create_ticket_params
     params.require(:ticket)
-      .permit(%i[text title user_id priority])
-      .merge(user_id: current_user.id)
+          .permit(%i[text title user_id priority])
+          .merge(user_id: current_user.id)
   end
 
   def update_ticket_params

@@ -31,7 +31,7 @@ RSpec.describe TicketsController, type: :controller do
         sign_in user
 
         ticket_params = { title: 'New Ticket', text: 'Server is down' }
-        post :create, params: ticket_params
+        post :create, params: { ticket: ticket_params }
 
         expect(Ticket.last.text).to eq ticket_params[:text]
 
@@ -44,7 +44,7 @@ RSpec.describe TicketsController, type: :controller do
         sign_in user
 
         ticket_params = { title: 'New Ticket' }
-        post :create, params: ticket_params
+        post :create, params: { ticket: ticket_params }
 
         expect(response).to render_template(:new)
       end
@@ -57,8 +57,8 @@ RSpec.describe TicketsController, type: :controller do
         sign_in agent
 
         unchanged_priority = ticket.priority
-
-        put :update, params: { id: ticket.id, assignee_id: agent.id, priority: :low }
+        ticket_params = { id: ticket.id, assignee_id: agent.id, priority: :low }
+        put :update, params: ticket_params
 
         expect(flash[:notice]).to eq "Ticket was successfully updated"
         expect(ticket.priority).to eq unchanged_priority
@@ -71,10 +71,10 @@ RSpec.describe TicketsController, type: :controller do
         sign_in admin
 
         priority_will_change = ticket.priority
+        ticket_params = { assignee_id: agent.id, priority: :low }
+        put :update, params: { id: ticket.id, ticket: ticket_params }
 
-        put :update, params: { id: ticket.id, assignee_id: agent.id, priority: :low }
-
-        expect(flash[:notice]).to eq "Ticket was successfully updated"
+        expect(flash[:notice]).to eq 'Ticket was successfully updated'
         expect(ticket.reload.priority).to_not eq priority_will_change
         assert_redirected_to ticket_path(ticket.id)
       end

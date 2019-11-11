@@ -34,6 +34,7 @@ RSpec.describe 'User actions on Ticket', type: :feature do
       click_on 'Send'
 
       expect(page).to have_selector('.alert', text: 'Comment was saved successfully')
+      expect(page).to have_selector('.alert', text: 'Comment was saved successfully')
     end
   end
 end

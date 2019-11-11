@@ -1,11 +1,27 @@
-<%= form_for(ticket, html: {class: 'form-inline'}) do |f| %>
+<%= form_with(model: ticket, class: 'form-inline') do |f| %>
   <% if admin? %>
-    <%= f.select :assignee_id, options_for_select(@team, selected: (ticket.assignee_id)), {include_blank: true}, { class: "form-control" } %>
+    <td>
+      <%= f.select :status, options_for_select(Ticket.statuses.map{|d| [d.first, d.first]}, selected: (ticket.status)), {}, { class: "form-control" } %>
+    </td>
+    <td>
+      <%= f.select :assignee_id, options_for_select(@team, selected: (ticket.assignee_id)), {include_blank: true}, { class: "form-control" } %>
+    </td>
   <% else %>
+    <td><%= ticket.status.humanize %></td>
+    <td>
+      <%= ticket.assignee.name.capitalize unless ticket.assignee_id.nil? %>
+    </td>
     <%= f.hidden_field :assignee_id, value: current_user.id %>
   <% end %>
 
-  <div class='actions'>
-    <%= f.submit admin? ? 'Assign' : 'Assign to me' , class: "btn btn-success self-assign #{ 'admin-assign' if admin? }" %>
-  </div>
+  <td>
+    <div class='actions'>
+      <% if super_user? %>
+        <%= f.submit admin? ? 'Update' : 'Assign to me' , class: "col-md-5 btn btn-success self-assign #{ 'admin-assign' if admin? }" %>
+      <% end %>
+      <% if admin? %>
+        <%= link_to  "Delete", ticket_path(ticket), method: :delete, class: "col-md-5 btn btn-danger delete-ticket", :data => { :confirm => "This would delete ticket ID #{ticket.id} permanently" } %>
+      <% end %>
+    </div>
+  </td>
 <% end %>

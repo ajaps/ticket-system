@@ -9,29 +9,30 @@
         <th>Admin</th>
         <th>Tickets Created</th>
         <th>Assigned Tickets</th>
-        <th>Open Tickets(Assigned)</th>
-        <th>Closed Tickets(Assigned)</th>
+        <th>Tickets Assigned(Open)</th>
+        <th>Tickets Assigned(Closed)</th>
         <th>Actions</th>
       </tr>
     </thead>
 
     <tbody>
       <% @users.each do |user| %>
+        <% element_id = "#{user.name}-#{user.id}" %>
         <%= form_with url: profile_path(user) do |f| %>
-          <tr>
+          <tr id="<%= user.name %>-<%= user.id %>">
             <th><%= user.id %></th>
-            <th><%= link_to user.name.capitalize, profile_path(user) %></th>
-            <th><%= f.select :agent, options_for_select([[true, true], [false, false]], selected: (user.agent)), {}, { class: "form-control" } %></th>
-            <th><%= f.select :admin, options_for_select([[true, true], [false, false]], selected: (user.admin)), {}, { class: "form-control" } %></th>
+            <th><%= link_to user.name.capitalize, profile_path(user), class: 'user-name', id: element_id %></th>
+            <th><%= f.select :agent, options_for_select([[true, true], [false, false]], selected: (user.agent)), {}, { class: "form-control", id: "agent-#{element_id}" } %></th>
+            <th><%= f.select :admin, options_for_select([[true, true], [false, false]], selected: (user.admin)), {}, { class: "form-control", id: "admin-#{element_id}" } %></th>
             <th class='ticket-count'><%= user.tickets.size %></th>
-            <th class='ticket-count'><%= Ticket.assigned_tickets(user.id) %></th>
+            <th class='ticket-count'><%= Ticket.assigned_tickets(user.id).size %></th>
             <th class='ticket-count'><%= Ticket.assigned_open_tickets(user.id).size %></th>
             <th class='ticket-count'><%= Ticket.assigned_closed_tickets(user.id).size %></th>
 
             <th>
               <div class='actions'>
-                <%= f.submit 'Update', class: "btn btn-success" %>
-                <%= link_to 'Delete', profile_path(user), method: :delete, :data => { :confirm => "This would delete #{user.name.upcase}'s account along with the associated tickets and comments permanently" }, class: "btn btn-danger delete-account" %></p>
+                <%= f.submit 'Update', class: "btn btn-success update-user", id: "update-#{element_id}" %>
+                <%= link_to 'Delete', profile_path(user), method: :delete, :data => { :confirm => "This would delete #{user.name.upcase}'s account along with the associated tickets and comments permanently" }, class: "btn btn-danger delete-account", id: "delete-#{element_id}" %></p>
               </div>
             </th>
           </tr>

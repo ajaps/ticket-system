@@ -23,7 +23,7 @@
         <% if super_user? %>
           <div class='assignee-label'> Assigned to: <span class='name'><%= presenter.assigned_to %> </div>
           <div class='update-priority col-md-12'>
-            <%= render "change_priority", ticket: @ticket, priority: @priority %>
+            <%= render "change_priority", ticket: @ticket, priority: @priority if admin? %>
           </div>
         <% else %>
           <div class='user-priority'>

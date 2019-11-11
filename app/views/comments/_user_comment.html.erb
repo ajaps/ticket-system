@@ -1,6 +1,6 @@
 <% presenter = ActivityPreviledge.new(user_comment, current_user) %>
 
-<div class="container user-comment col-md-10 <%= (presenter.super_user?) ? "super-user" : "non-super-user" %>">
+<div class="container user-comment col-md-10 <%= super_user? ? "super-user" : "non-super-user" %>">
   <div class="comment-profile-head">
     <div class="avatar comment-avatar">
       <span class="icon-agent"></span>

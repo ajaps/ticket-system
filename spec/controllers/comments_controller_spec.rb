@@ -13,7 +13,7 @@ RSpec.describe CommentsController, type: :controller do
       sign_in agent
 
       comment_details = { ticket_id: ticket.id, text: "A Super user comment" }
-      post :create, params: comment_details
+      post :create, params: { comment: comment_details }
 
       expect(flash[:notice]).to eq 'Comment was saved successfully'
       assert_redirected_to ticket_path(ticket)
@@ -24,7 +24,7 @@ RSpec.describe CommentsController, type: :controller do
         sign_in user
 
         comment_details = { ticket_id: ticket.id, text: "The system would reject this user's comment" }
-        post :create, params: comment_details
+        post :create, params: { comment: comment_details }
 
         expect(flash[:error]).to eq 'Only super users can comment on new tickets'
         assert_redirected_to ticket_path(ticket)
@@ -36,7 +36,7 @@ RSpec.describe CommentsController, type: :controller do
         ticket.comments.create(user: agent, text: "An Agent's comment")
         comment_details = { ticket_id: ticket.id, text: 'User comment is saved here' }
 
-        post :create, params: comment_details
+        post :create, params: { comment: comment_details }
 
         expect(flash[:notice]).to eq 'Comment was saved successfully'
         assert_redirected_to ticket_path(ticket)

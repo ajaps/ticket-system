@@ -14,6 +14,10 @@ class User < ApplicationRecord
   scope :team, -> { where(agent: true).or(where(admin: true)) }
   scope :all_users, -> { order(:admin, :agent) }
 
+  def super_user?
+    agent || admin
+  end
+
   private
 
   def cannot_be_an_admin_and_agent

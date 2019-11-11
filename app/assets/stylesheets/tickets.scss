@@ -156,6 +156,29 @@
     }
 
     .available-tickets {
+      table-layout: fixed;
+
+      tr,
+      td {
+        overflow: hidden;
+
+        .actions {
+          display: flex;
+
+          .delete-ticket {
+            margin-left: 18px;
+          }
+        }
+      }
+
+      .ticket-id {
+        width: 55px;
+      }
+
+      .number-of-comments {
+        width: 80px;
+      }
+
       .actions {
         .self-assign {
           font-size: 10px;
