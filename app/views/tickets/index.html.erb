@@ -1,3 +1,5 @@
+<%= render "layouts/search" %>
+
 <% if @error_messages %>
   <div><%= pluralize(@error_messages.count, "error") %> prohibited this Ticket from being sent:</div>
     <ul>
@@ -9,7 +11,57 @@
 <% end %>
 
 <h3>Tickets </h3>
-<div class="create-tickets"> <%= link_to  "Create Ticket", new_ticket_path %> </div>
+<div class="col-md-12 create-tickets"> <%= link_to  "Create Ticket", new_ticket_path, class: 'btn btn-info' %> </div><br>
+
+<div class="row">
+  <div class="col-md-1">
+    ID
+  </div>
+
+  <div class="col-md-2">
+    Title
+  </div>
+
+  <div class="col-md-2">
+    Created
+  </div>
+
+  <div class="col-md-2">
+    Last Activity
+  </div>
+
+  <div class="col-md-1">
+    <%= admin_display('Comments') %>
+  </div>
+
+  <div class="col-md-2">
+    Priority
+  </div>
+
+  <div class="col-md-1">
+    Status
+  </div>
+</div>
+
+<div>
+  <% @tickets.each do |ticket| %>
+    <%= form_with(model: ticket, class: 'form-inline') do |f| %>
+      <div class="ticket-row row">
+        <div class="col-md-1"><%= ticket.id %></div>
+        <div class="col-md-2"><%= link_to  ticket.title, ticket %></div>
+        <div class="col-md-2"><%= time_ago_in_words(ticket.created_at) %> ago</div>
+        <div class="col-md-2"><%= time_ago_in_words(ticket.updated_at) %> ago</div>
+        <div class='message-count col-md-1'><%= admin_display(ticket.comments.count) %></div>
+        <div class="col-md-2"><%= ticket.priority.capitalize %></div>
+
+        <%= ticket_assign(f, ticket) %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<%
+=begin%>
 
 <table class="table table-hover available-tickets">
   <thead>
@@ -30,22 +82,30 @@
 
   <tbody>
     <% @tickets.each do |ticket| %>
-      <tr>
-        <td><%= ticket.id %></td>
-        <td><%= link_to  ticket.title, ticket %></td>
-        <td><%= time_ago_in_words(ticket.created_at) %> ago</td>
-        <td><%= time_ago_in_words(ticket.updated_at) %> ago</td>
-        <td class='message-count'><%= admin_display(ticket.comments.count) %></td>
-        <td><%= ticket.priority.capitalize %></td>
+      <%= form_with(model: ticket, class: 'form-inline') do |f| %>
+        <tr>
+          <td><%= ticket.id %></td>
+          <td><%= link_to  ticket.title, ticket %></td>
+          <td><%= time_ago_in_words(ticket.created_at) %> ago</td>
+          <td><%= time_ago_in_words(ticket.updated_at) %> ago</td>
+          <td class='message-count'><%= admin_display(ticket.comments.count) %></td>
+          <td><%= ticket.priority.capitalize %></td>
 
-        <%= ticket_assign(ticket) %>
-      </tr>
+          <%= ticket_assign(f, ticket) %>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
+<%
+=end%>
 
 <% if @tickets.size < 1 %>
   <div class="tickets-not-available">
-    You haven't created a ticket yet
+    <% if params[:action] == 'search' %>
+      Search returned empty
+    <% else %>
+      You haven't created a ticket yet
+    <% end %>
   </div>
 <% end %>

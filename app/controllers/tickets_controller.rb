@@ -1,7 +1,9 @@
 class TicketsController < ApplicationController
+  require 'csv'
+
   before_action :authenticate_user!
   before_action :require_super_user!, only: :update
-  before_action :require_admin!, only: :destroy
+  before_action :require_admin!, only: %i[destroy download_report]
   before_action :set_ticket, only: %i[show update destroy]
   before_action :form_data, only: %i[new edit create show]
   before_action :comment, only: :show
@@ -46,6 +48,34 @@ class TicketsController < ApplicationController
     redirect_to root_path, notice: 'Ticket was deleted successfully'
   end
 
+  def export_to_csv
+    status = params[:status].presence
+    assignee_id = params[:assignee].presence
+
+    tickets = Ticket.search(status, assignee_id, params[:from], params[:to])
+
+    header = ['ID', 'Title', 'Created', 'Last Activity', 'Comments', 'Priority', 'Status']
+    attributes = %w{id title created_at updated_at number_of_comments priority status}
+
+    data = CSV.generate(headers: true) do |csv|
+      csv << header
+
+      tickets.each do |record|
+        csv << attributes.map { |attr| record.send(attr) }
+      end
+    end
+
+    send_data data, filename: "Ticket Report-#{Date.today}.csv"
+  end
+
+  def search
+    status = params[:status].presence
+    assignee_id = params[:assignee].presence
+
+    @tickets = Ticket.search(status, assignee_id, params[:from], params[:to])
+    render :index
+  end
+
   private
 
   def priority
@@ -79,6 +109,13 @@ class TicketsController < ApplicationController
   def available_status
     @available_status = Ticket.statuses.map { |p| [p.first.capitalize, p.first] } if admin?
     @available_status ||= %w[closed closed] if agent?
+  end
+
+  def search_params
+    {
+      status: params[:status].presence,
+      assignee_id: params[:assignee].presence
+    }
   end
 
   def form_data

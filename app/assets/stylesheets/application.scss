@@ -12,10 +12,12 @@
  *
  *= require_tree .
  *= require_self
+ *=require bootstrap-datepicker
  */
 
 // Custom bootstrap variables must be set or imported *before* bootstrap.
 @import "bootstrap";
+@import "bootstrap-datepicker";
 
 html {
   font-size: 12px;
@@ -37,6 +39,31 @@ html {
   max-height: fit-content;
   margin-top: 60px;
   margin-bottom: 70px;
+
+  .search-pane {
+    border: 3px solid whitesmoke;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: whitesmoke;
+    border-radius: 16px;
+    margin-bottom: 19px;
+
+    .download-csv {
+      margin-top: 25px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .search-form {
+      .glyphicon-search {
+        margin-top: 21px;
+      }
+
+      .date-box {
+        margin-top: 2px;
+      }
+    }
+  }
 }
 
 .pull-center {

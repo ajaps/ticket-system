@@ -1,0 +1,32 @@
+<div class="search-pane row">
+  <%= form_tag(search_path, method: :get, class: 'search-form col-md-10') do %>
+    <div class="input-group">
+
+      <div class="form-group col-md-2">
+        <%= label_tag :status, "Status" %><br>
+        <%= select_tag :status, options_for_select(Ticket.statuses.map{|d| [d.first, d.second]}, selected: (params[:status])), include_blank: 'Any',  class: "form-control" %>
+      </div>
+
+      <div class="form-group col-md-2">
+        <%= label_tag :assignee, "Assigned To" %><br>
+        <%= select_tag :assignee, options_for_select(User.all.pluck(:name, :id), selected: (params[:status])), include_blank: 'Any', class: "form-control" %>
+      </div>
+
+      <div class="form-group col-md-2">
+        <%= label_tag :from, "Date From" %><br>
+        <input type="text" data-provide='datepicker' placeholder="mm/dd/yyyy" class='date-box' name="from" value="<%= params['from'] %>">
+      </div>
+
+      <div class="form-group col-md-2">
+        <%= label_tag :to, "Date From" %><br>
+        <input type="text" data-provide='datepicker' placeholder="mm/dd/yyyy" class='date-box' name="to" value="<%= params['to'] %>">
+      </div>
+
+      <div class="form-group input-group-btn col-md-2">
+        <%= button_tag "Filter", :class => 'btn btn-info glyphicon glyphicon-search form-control',:name => nil%>
+      </div>
+    </div>
+  <% end %>
+
+  <%= link_to  "Export to CSV", export_path(request.parameters.merge({:format => :xls})), data: { turbolinks: false }, class: "download-csv col-md-2" %>
+</div>

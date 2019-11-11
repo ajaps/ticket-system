@@ -44,8 +44,38 @@ class Ticket < ApplicationRecord
     where(assignee_id: user_id)
   end
 
+  def self.search(status=nil, assigned_id=nil, from=nil, to=nil)
+    start_date = Date.strptime(from, '%m/%d/%Y') if from.present?
+    end_date = Date.strptime(to, '%m/%d/%Y') if to.present?
+    by_attr = nil
+
+    by_dates = if start_date && end_date
+      where(created_at: start_date..end_date)
+    elsif start_date
+      where('created_at >= ?', start_date)
+    elsif end_date
+      where('created_at <= ?', end_date)
+    else
+      all
+    end
+
+    by_attr = if status && assigned_id
+      by_dates.where(status: status, assignee_id: assigned_id)
+    elsif status
+      by_dates.where(status: status)
+    elsif assigned_id
+      by_dates.where(assignee_id: assigned_id)
+    end
+
+    by_attr || by_dates
+  end
+
   def comments?
     comments.present?
+  end
+
+  def number_of_comments
+    comments.size
   end
 
   private
