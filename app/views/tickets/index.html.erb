@@ -13,46 +13,56 @@
 <h3>Tickets </h3>
 <div class="col-md-12 create-tickets"> <%= link_to  "Create Ticket", new_ticket_path, class: 'btn btn-info' %> </div><br>
 
-<div class="row">
-  <div class="col-md-1">
+<div class="show-tickets ticket-row ticket-header">
+  <div class="ticket-col-1">
     ID
   </div>
 
-  <div class="col-md-2">
+  <div class="ticket-col-2">
     Title
   </div>
 
-  <div class="col-md-2">
+  <div class="ticket-col-3">
     Created
   </div>
 
-  <div class="col-md-2">
+  <div class="ticket-col-3">
     Last Activity
   </div>
 
-  <div class="col-md-1">
+  <div class="ticket-col-4">
     <%= admin_display('Comments') %>
   </div>
 
-  <div class="col-md-2">
+  <div class="ticket-col-5">
     Priority
   </div>
 
-  <div class="col-md-1">
+  <div class="ticket-col-6">
     Status
   </div>
+
+  <div class="ticket-col-6">
+    Assigned To
+  </div>
+
+  <% if admin? %>
+    <div class="ticket-col-6">
+      Actions
+    </div>
+  <% end %>
 </div>
 
-<div>
+<div class='show-tickets'>
   <% @tickets.each do |ticket| %>
-    <%= form_with(model: ticket, class: 'form-inline') do |f| %>
-      <div class="ticket-row row">
-        <div class="col-md-1"><%= ticket.id %></div>
-        <div class="col-md-2"><%= link_to  ticket.title, ticket %></div>
-        <div class="col-md-2"><%= time_ago_in_words(ticket.created_at) %> ago</div>
-        <div class="col-md-2"><%= time_ago_in_words(ticket.updated_at) %> ago</div>
-        <div class='message-count col-md-1'><%= admin_display(ticket.comments.count) %></div>
-        <div class="col-md-2"><%= ticket.priority.capitalize %></div>
+    <%= form_with(model: ticket, class: 'form-inline ticket-display') do |f| %>
+      <div class="ticket-row">
+        <div class="ticket-col-1"><%= ticket.id %></div>
+        <div class="ticket-col-2"><%= link_to  ticket.title, ticket %></div>
+        <div class="ticket-col-3"><%= time_ago_in_words(ticket.created_at) %> ago</div>
+        <div class="ticket-col-3"><%= time_ago_in_words(ticket.updated_at) %> ago</div>
+        <div class='message-count ticket-col-4'><%= admin_display(ticket.comments.count) %></div>
+        <div class="ticket-col-5"><%= ticket.priority.capitalize %></div>
 
         <%= ticket_assign(f, ticket) %>
       </div>

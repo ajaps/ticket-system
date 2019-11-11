@@ -1,19 +1,19 @@
   <% if admin? %>
-    <div class="col-md-1">
+    <div class="ticket-col-6">
       <%= f.select :status, options_for_select(Ticket.statuses.map{|d| [d.first, d.first]}, selected: (ticket.status)), {}, { class: "form-control" } %>
     </div>
-    <div class="col-md-2">
+    <div class="ticket-col-6">
       <%= f.select :assignee_id, options_for_select(@team, selected: (ticket.assignee_id)), {include_blank: true}, { class: "form-control" } %>
     </div>
   <% else %>
-    <div class="col-md-1"><%= ticket.status.humanize %></div>
-    <div class="col-md-2">
+    <div class="ticket-col-6"><%= ticket.status.humanize %></div>
+    <div class="ticket-col-6">
       <%= ticket.assignee.name.capitalize unless ticket.assignee_id.nil? %>
     </div>
     <%= f.hidden_field :assignee_id, value: current_user.id %>
   <% end %>
 
-  <div class="col-md-2">
+  <div class="ticket-col-6">
     <div class='actions'>
       <% if super_user? %>
         <%= f.submit admin? ? 'Update' : 'Assign to me' , class: "col-md-5 btn btn-success self-assign #{ 'admin-assign' if admin? }" %>

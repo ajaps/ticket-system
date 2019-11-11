@@ -27,6 +27,7 @@
       </div>
     </div>
   <% end %>
-
-  <%= link_to  "Export to CSV", export_path(request.parameters.merge({:format => :xls})), data: { turbolinks: false }, class: "download-csv col-md-2" %>
+  <%if admin? %>
+    <%= link_to  "Export to CSV", export_path(request.parameters.merge({:format => :xls})), data: { turbolinks: false }, class: "download-csv col-md-2" %>
+  <% end %>
 </div>

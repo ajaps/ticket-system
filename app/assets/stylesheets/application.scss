@@ -35,6 +35,51 @@ html {
   position: fixed;
 }
 
+.ticket-row {
+  display: flex;
+  width: 100%;
+}
+
+.ticket-header {
+  font-weight: bold;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+.ticket-display {
+  margin-bottom: 10px;
+}
+
+.show-tickets {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+
+  .ticket-col-1 {
+    width: 3%;
+  }
+
+  .ticket-col-2 {
+    width: 12%;
+  }
+
+  .ticket-col-3 {
+    width: 10%;
+  }
+
+  .ticket-col-4 {
+    width: 7%;
+  }
+
+  .ticket-col-5 {
+    width: 7%;
+  }
+
+  .ticket-col-6 {
+    width: 16%;
+  }
+}
+
 .page-body {
   max-height: fit-content;
   margin-top: 60px;
