@@ -30,7 +30,7 @@ Please make sure you have **Ruby(v 2.4.1) and mysql** installed. Take the follow
 
 ### Configuring the database
 
-- After creating your `config/application.yml`, you need to create these 2 databases `vof-tracker` and `vof_tracker_test`. To create them, run:
+- After creating your `config/application.yml`, you need to create a database. To create them, run:
 
   ```bash
     rails db:setup
