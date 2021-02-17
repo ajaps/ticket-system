@@ -13,7 +13,7 @@ This web application is written with Ruby using the Ruby on Rails framework and 
   ```
 - To install PostgreSQL, run
   ```bash
-  brew install mysql
+  brew install postgresql
   ```
 
 _To know more about Ruby or Rails visit [Ruby Lang](https://www.ruby-lang.org) or [Ruby on Rails](http://rubyonrails.org/)._
